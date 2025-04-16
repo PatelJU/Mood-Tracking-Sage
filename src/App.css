@@ -1,38 +1,741 @@
-.App {
-  text-align: center;
+/* 2025 Ultra Modern Design System */
+:root {
+  /* Core colors - improved contrast */
+  --color-primary: #4F46E5;
+  --color-primary-light: #6366F1;
+  --color-primary-dark: #3730A3;
+  --color-primary-100: rgba(79, 70, 229, 0.1);
+  --color-primary-200: rgba(79, 70, 229, 0.2);
+  --color-primary-300: rgba(79, 70, 229, 0.3);
+  --color-primary-rgb: 79, 70, 229;
+  
+  --color-secondary: #0891B2;
+  --color-secondary-light: #06B6D4;
+  --color-secondary-dark: #0E7490;
+  --color-secondary-100: rgba(8, 145, 178, 0.1);
+  --color-secondary-200: rgba(8, 145, 178, 0.2);
+  --color-secondary-rgb: 8, 145, 178;
+  
+  --color-success: #10b981;
+  --color-success-light: #34d399;
+  --color-success-100: rgba(16, 185, 129, 0.1);
+  
+  --color-warning: #f59e0b;
+  --color-warning-light: #fbbf24;
+  --color-warning-100: rgba(245, 158, 11, 0.1);
+  
+  --color-error: #ef4444;
+  --color-error-light: #f87171;
+  --color-error-100: rgba(239, 68, 68, 0.1);
+  
+  /* Mood Colors */
+  --mood-very-bad: #EF4444;
+  --mood-bad: #F97316;
+  --mood-okay: #FACC15;
+  --mood-good: #22C55E;
+  --mood-very-good: #3B82F6;
+  
+  /* Text colors with better contrast */
+  --color-text-dark: #111827;
+  --color-text-dark-secondary: #374151;
+  --color-text-light: #FFFFFF;
+  --color-text-light-secondary: #F3F4F6;
+  
+  /* Surface colors */
+  --surface-light: #F9FAFB;
+  --surface-light-hover: #F3F4F6;
+  --surface-dark: #111827;
+  --surface-dark-hover: #1F2937;
+  
+  /* Glass effects with improved opacity */
+  --surface-glass-light: rgba(255, 255, 255, 0.9);
+  --surface-glass-light-solid: rgba(255, 255, 255, 0.97);
+  --surface-glass-dark: rgba(17, 24, 39, 0.85);
+  --surface-glass-dark-solid: rgba(17, 24, 39, 0.95);
+  
+  /* Blur effects */
+  --blur-sm: 4px;
+  --blur-md: 8px;
+  --blur-lg: 16px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  
+  /* Spacings */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+  
+  /* Animation */
+  --motion-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-medium: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-elastic: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* Z-index layers */
+  --z-drawer: 1200;
+  --z-dialog: 1300;
+  --z-dropdown: 1050;
+  --z-sticky: 1020;
+  --z-appbar: 1100;
+  --z-tooltip: 1500;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Apply dark mode theme */
+[data-theme="dark"] {
+  --surface-light: var(--surface-dark);
+  --surface-light-hover: var(--surface-dark-hover);
+  --surface-glass-light: var(--surface-glass-dark);
+  --surface-glass-light-solid: var(--surface-glass-dark-solid);
+  --color-text-dark: var(--color-text-light);
+  --color-text-dark-secondary: var(--color-text-light-secondary);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Global styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+  overflow-x: hidden;
+  background-color: var(--surface-light);
+  color: var(--color-text-dark);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+#root {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* Typography System - 2025 Style */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.75em;
+  color: var(--color-text-dark);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+p, li, span {
+  line-height: 1.6;
+  margin-bottom: 1em;
+}
+
+/* Main layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: var(--surface-light);
+}
+
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  position: relative;
+  width: 100%;
+  padding-top: 80px !important; /* Match the AppBar height + buffer */
+  padding-left: 76px !important; /* Match the sidebar width + buffer */
+}
+
+.main-content {
+  flex: 1;
+  padding: var(--space-4);
+  width: 100%;
+  max-width: 100%;
+  transition: padding var(--motion-medium);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Sidebar / Navigation */
+.sidebar {
+  width: 60px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: var(--z-drawer);
+  transition: width var(--motion-medium);
+  display: flex;
+  flex-direction: column;
+  padding-top: 64px; /* Same as AppBar height */
+  overflow: hidden;
+  background: var(--surface-glass-light-solid) !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.sidebar.expanded {
+  width: 240px;
+}
+
+.sidebar .nav-header {
+  padding: var(--space-4) var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar .nav-items {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2);
+  gap: var(--space-2);
+}
+
+.sidebar .nav-item {
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all var(--motion-medium);
+}
+
+.sidebar .nav-item:hover {
+  background-color: rgba(99, 102, 241, 0.08);
+  transform: translateX(4px);
+}
+
+.sidebar .nav-item.active {
+  background-color: var(--color-primary-100);
+  position: relative;
+}
+
+.sidebar .nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--color-primary), var(--color-secondary));
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.sidebar .nav-item-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin-right: var(--space-3);
+}
+
+.sidebar .nav-item.active .nav-item-icon,
+.sidebar .nav-item.active .nav-item-text {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.sidebar .nav-footer {
+  padding: var(--space-4) var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+/* TopBar / AppBar */
+.top-bar {
+  height: 64px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-appbar);
+  background: var(--surface-glass-light-solid);
+  backdrop-filter: blur(var(--blur-md));
+  -webkit-backdrop-filter: blur(var(--blur-md));
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.top-bar-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+.top-bar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Cards & Containers */
+.glass-card {
+  background: var(--surface-glass-light-solid) !important;
+  backdrop-filter: blur(var(--blur-md));
+  -webkit-backdrop-filter: blur(var(--blur-md));
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: var(--shadow-lg) !important;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: transform var(--motion-medium), box-shadow var(--motion-medium);
+}
+
+.glass-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.card-header {
+  padding: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-content {
+  padding: var(--space-4);
+}
+
+.card-footer {
+  padding: var(--space-4);
+  padding-top: var(--space-2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Buttons */
+.btn {
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  font-weight: 500;
+  transition: all var(--motion-medium);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  gap: var(--space-2);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-primary:hover {
+  box-shadow: 0 0 20px var(--color-primary-200);
+  transform: translateY(-2px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.btn-secondary {
+  background: var(--color-secondary);
+  color: white;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-outline:hover {
+  background: var(--color-primary-100);
+}
+
+/* Inputs and Forms */
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text-dark);
+  transition: all var(--motion-medium);
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-100);
+  outline: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--motion-medium) forwards;
+}
+
+.animate-slide-in {
+  animation: slideInUp var(--motion-medium) forwards;
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    position: fixed;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .sidebar.expanded {
+    transform: translateX(0);
+    width: 270px;
   }
+  
+  .main-content {
+    padding-left: var(--space-4);
+  }
+}
+
+/* Modified MUI components for 2025 design */
+.MuiAppBar-root {
+  background: var(--surface-glass-light-solid) !important;
+  backdrop-filter: blur(var(--blur-md)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-md)) !important;
+  box-shadow: var(--shadow-md) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  z-index: 1300 !important;
+}
+
+.MuiCard-root {
+  border-radius: var(--radius-xl) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  overflow: hidden !important;
+  background-color: var(--surface-glass-light) !important;
+  backdrop-filter: blur(var(--blur-sm)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-sm)) !important;
+  transition: transform var(--motion-medium), box-shadow var(--motion-medium) !important;
+}
+
+.MuiCard-root:hover {
+  box-shadow: var(--shadow-lg) !important;
+  transform: translateY(-4px) !important;
+}
+
+.MuiButton-root {
+  text-transform: none !important;
+  font-weight: 500 !important;
+  border-radius: var(--radius-md) !important;
+  transition: all var(--motion-elastic) !important;
+}
+
+.MuiButton-containedPrimary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  box-shadow: 0 0 20px var(--color-primary-200) !important;
+  transform: translateY(-2px) !important;
+}
+
+.MuiIconButton-root {
+  border-radius: var(--radius-md) !important;
+  transition: all var(--motion-medium) !important;
+}
+
+.MuiIconButton-root:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  transform: scale(1.1) !important;
+}
+
+.MuiDrawer-paper {
+  background: var(--surface-glass-light) !important;
+  backdrop-filter: blur(var(--blur-md)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-md)) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.MuiTabs-root {
+  position: relative;
+  overflow: visible !important;
+  margin-bottom: var(--space-4);
+}
+
+.MuiTab-root {
+  text-transform: none !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  color: var(--color-text-dark-secondary) !important;
+  transition: all 0.3s ease !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+  padding: var(--space-3) var(--space-4) !important;
+  min-width: 120px !important;
+  margin-bottom: 6px !important;
+}
+
+.MuiTab-root.Mui-selected {
+  color: var(--color-primary) !important;
+  font-weight: 600 !important;
+  position: relative;
+}
+
+.MuiTabs-indicator {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary)) !important;
+  height: 3px !important;
+  border-radius: var(--radius-full) !important;
+  bottom: 0 !important;
+}
+
+/* Mood icons */
+.mood-icon {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  margin: 0 var(--space-2) !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.mood-icon:hover {
+  transform: scale(1.15) !important;
+}
+
+.selected-mood .mood-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Custom form layouts */
+.mood-form {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Calendar with modern styling */
+.mood-calendar {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-day {
+  position: relative;
+  min-height: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.calendar-day:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.calendar-day.has-entry {
+  position: relative;
+}
+
+.calendar-day.has-entry::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--color-primary-100), transparent);
+  z-index: -1;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--color-primary-200), var(--color-secondary-200));
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--color-primary), var(--color-secondary));
+  background-clip: content-box;
+}
+
+/* Enhanced Icon Styles - 2025 design */
+.MuiSvgIcon-root {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+}
+
+/* Icon backgrounds to ensure visibility */
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-md);
+  width: 40px;
+  height: 40px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Ensure mood icons are always visible */
+.mood-icon-wrapper {
+  background: white !important;
+  border-radius: 50% !important;
+  padding: 5px !important;
+  box-shadow: var(--shadow-md) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Add text shadow to all gradient text */
+.gradient-text, 
+h1, 
+.page-title, 
+.top-bar-title,
+[style*="background-clip: text"] {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix text with gradient backgrounds to ensure visibility */
+[style*="background-clip: text"],
+[style*="-webkit-background-clip: text"] {
+  -webkit-text-fill-color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  text-shadow: none;
+  position: relative;
+}
+
+/* Add a text shadow wrapper for gradient text */
+[style*="background-clip: text"]::after,
+[style*="-webkit-background-clip: text"]::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: blur(8px) opacity(0.2);
+}
+
+/* For icons on light backgrounds */
+.light-bg .MuiSvgIcon-root,
+.nav-item-icon .MuiSvgIcon-root,
+.sidebar .MuiSvgIcon-root {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+/* For icons on dark backgrounds */
+.dark-bg .MuiSvgIcon-root,
+.MuiAppBar-root .MuiSvgIcon-root {
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+  color: white;
+}
+
+/* Ensure all icons in dark areas are visible */
+.MuiAppBar-root .MuiIconButton-root,
+.MuiAppBar-root .MuiSvgIcon-root {
+  color: white !important;
 }

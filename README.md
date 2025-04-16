@@ -1,46 +1,145 @@
-# Getting Started with Create React App
+# Pro Mood Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive mood tracking application that helps users log, visualize, and analyze their moods over time. This application serves as a personal diary for emotional well-being, providing deep insights into mood patterns and offering suggestions for improvement.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### User Authentication
+- Secure registration and login system
+- Password reset functionality
+- User profile management
 
-### `npm start`
+### Mood Logging
+- Color-coded mood entries (Very Bad, Bad, Okay, Good, Very Good)
+- Time period selection (morning, afternoon, evening, night, full-day)
+- Notes for each mood entry
+- Weather data integration
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Visualization
+- Interactive calendar with color-coded mood indicators
+- Multiple chart types:
+  - Line graphs for mood trends
+  - Bar charts for mood distribution
+  - Radar/Spider charts for time-of-day analysis
+  - Correlation charts for weather impact
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Analytics
+- Mood statistics and trends
+- Day of week analysis
+- Time of day patterns
+- Weather correlation insights
+- Mood predictions based on historical data
 
-### `npm test`
+### History
+- Searchable mood history
+- Filter by mood, date, and time of day
+- Detailed view of past entries
+- Edit and delete functionality
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Rewards System
+- Points for consistent logging
+- Badges for achievements
+- Streak tracking
+- Progress visualization
 
-### `npm run build`
+### Customization
+- Multiple theme options:
+  - Light
+  - Dark
+  - Ocean
+  - Sunset
+  - Forest
+  - Pastel
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Data Management
+- Export options (JSON, CSV)
+- Email functionality
+- Data privacy controls
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Technology Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Frontend**: React with TypeScript
+- **UI Framework**: Material-UI (MUI)
+- **Routing**: React Router
+- **State Management**: React Context API
+- **Charts**: Recharts, Chart.js
+- **Date Handling**: date-fns
+- **PDF Generation**: jsPDF
 
-### `npm run eject`
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Prerequisites
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Node.js (v14 or higher)
+- npm or yarn
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Installation
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/pro-mood-tracker.git
+   cd pro-mood-tracker
+   ```
 
-## Learn More
+2. Install dependencies:
+   ```
+   npm install
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Start the development server:
+   ```
+   npm start
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. Open your browser and navigate to `http://localhost:3000`
+
+## Project Structure
+
+```
+mood-tracker/
+├── public/
+├── src/
+│   ├── assets/
+│   │   └── images/
+│   ├── components/
+│   │   ├── auth/
+│   │   ├── charts/
+│   │   ├── history/
+│   │   ├── layout/
+│   │   ├── mood/
+│   │   ├── rewards/
+│   │   ├── themes/
+│   │   └── utils/
+│   ├── context/
+│   ├── pages/
+│   ├── services/
+│   ├── types/
+│   ├── App.tsx
+│   └── index.tsx
+├── package.json
+└── tsconfig.json
+```
+
+## Usage
+
+1. **Register/Login**: Create an account or log in to access your personal mood tracker.
+2. **Log a Mood**: Click on "Log Mood" to record your current emotional state.
+3. **View Calendar**: See your moods displayed on a color-coded calendar.
+4. **Analyze Trends**: Visit the Analytics section to gain insights into your mood patterns.
+5. **Check History**: Browse through your past entries in the History section.
+6. **Earn Rewards**: Track your progress and earn badges in the Rewards section.
+7. **Customize**: Change the application theme in Settings.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgements
+
+- Material-UI for the component library
+- Recharts and Chart.js for visualization components
+- All the open-source libraries that made this project possible

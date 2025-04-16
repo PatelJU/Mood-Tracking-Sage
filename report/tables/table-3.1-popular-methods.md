@@ -1,0 +1,14 @@
+# Table 3.1: Popular Methods/Techniques for Mood Data Processing and Analysis
+
+| Method/Technique | Description | Application in Mood Tracking | Implementation in Pro Mood Tracker |
+|------------------|-------------|------------------------------|-----------------------------------|
+| Moving Average | Statistical calculation that analyzes data points by creating a series of averages of different subsets | Smoothing mood data to identify trends while reducing noise from daily fluctuations | Implemented with configurable window sizes (7, 14, 30 days) for trend visualization |
+| Linear Regression | Statistical approach to model relationship between dependent and independent variables by fitting a linear equation | Detecting overall mood trends over time and predicting future trajectory | Used to generate trend lines in time-series visualizations and for basic predictions |
+| Correlation Analysis | Statistical method to evaluate strength of relationship between two quantitative variables | Identifying relationships between mood and factors like weather, activities, or sleep | Pearson correlation coefficient calculation between mood ratings and tracked variables |
+| Peak Detection | Algorithm to identify local maxima and minima in a data series | Finding mood peaks and valleys to highlight significant emotional events | Custom implementation to detect significant mood changes exceeding threshold values |
+| Seasonal Decomposition | Technique to separate time series into seasonal, trend, and residual components | Identifying weekly, monthly, or seasonal patterns in mood data | Implemented using STL (Seasonal-Trend decomposition using LOESS) for detecting cycles |
+| Pattern Recognition | Application of machine learning to identify patterns in data | Detecting recurring mood patterns and potential triggers | Rule-based pattern detection with future plans for ML-based implementation |
+| Sentiment Analysis | Natural language processing technique to identify emotional tone in text | Analyzing journal entries to extract additional emotional context | Basic keyword-based sentiment extraction from journal entries |
+| Cluster Analysis | Statistical method to group similar data points | Identifying distinct mood states and associated factors | K-means clustering to categorize days by mood and context variables |
+| Z-Score Normalization | Statistical technique that normalizes data based on standard deviation | Comparing mood data across different time periods and scales | Used to normalize mood values for comparison across different metrics |
+| Time Series Forecasting | Methods to predict future values based on previously observed values | Predicting future mood states based on historical patterns | ARIMA (AutoRegressive Integrated Moving Average) model for basic forecasting | 

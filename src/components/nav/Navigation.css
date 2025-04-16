@@ -1,0 +1,175 @@
+.nav-button {
+  margin: 0 8px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-link:hover {
+  text-decoration: none;
+}
+
+.nav-menu-item {
+  border-radius: 0 50px 50px 0;
+  margin-right: 8px;
+  transition: all 0.2s ease;
+}
+
+.nav-menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.nav-menu-item.active {
+  background-color: rgba(25, 118, 210, 0.12);
+}
+
+.nav-menu-item.active:hover {
+  background-color: rgba(25, 118, 210, 0.18);
+}
+
+/* User avatar styling */
+.avatar-container {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-container .MuiAvatar-root {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+
+.avatar-container .MuiAvatar-root:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.username {
+  font-weight: bold;
+  text-align: center;
+}
+
+/* App title styling */
+.app-title {
+  font-weight: bold;
+  flex-grow: 1;
+}
+
+/* Mobile drawer */
+.mobile-drawer .MuiDrawer-paper {
+  width: 250px;
+}
+
+/* Desktop drawer */
+.desktop-drawer .MuiDrawer-paper {
+  width: 250px;
+  position: fixed;
+}
+
+.theme-toggle {
+  position: relative;
+}
+
+.theme-menu .MuiPaper-root {
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.theme-menu-item {
+  transition: background-color 0.2s ease;
+}
+
+.theme-menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 600px) {
+  .desktop-nav {
+    display: none;
+  }
+}
+
+@media (min-width: 601px) {
+  .mobile-nav {
+    display: none;
+  }
+}
+
+/* Navigation styles */
+.nav-item {
+  margin-bottom: 4px;
+  border-radius: 0 50px 50px 0;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.nav-item.selected {
+  font-weight: 500;
+}
+
+.nav-item .MuiListItemIcon-root {
+  min-width: 40px;
+}
+
+/* Drawer header */
+.drawer-header {
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Mobile drawer adjustment */
+@media (max-width: 960px) {
+  .MuiDrawer-paper {
+    width: 250px !important;
+  }
+  
+  .drawer-header {
+    padding: 12px;
+  }
+}
+
+/* Badge styling */
+.MuiBadge-badge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-size: 12px;
+}
+
+/* Fix for selected items */
+.Mui-selected {
+  background-color: rgba(63, 81, 181, 0.12) !important;
+}
+
+.Mui-selected:hover {
+  background-color: rgba(63, 81, 181, 0.18) !important;
+}
+
+/* Navigation icon styles */
+.nav-icon {
+  color: inherit;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover .nav-icon,
+.nav-item.selected .nav-icon {
+  opacity: 1;
+}
+
+/* Fix for drawer content vertical scrolling */
+.MuiDrawer-paper {
+  overflow-y: auto;
+  overflow-x: hidden;
+} 

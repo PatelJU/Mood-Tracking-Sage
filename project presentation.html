@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker - Professional Presentation</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Including Times New Roman alternative (Noto Serif) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP for professional animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        :root {
+            --primary: #3f51b5;
+            --secondary: #f50057;
+            --dark-bg: #1a1a2e;
+            --light-bg: #f5f5f7;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --info: #2196f3;
+            --error: #f44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Serif', 'Times New Roman', serif;
+            overflow: hidden;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        #presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background: linear-gradient(135deg, var(--dark-bg), #16213e);
+            z-index: 1;
+            transform: translateY(30px);
+            transition: all 0s;
+        }
+        
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+            transform: translateY(0);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.17, 0.67, 0.32, 1.34);
+        }
+        
+        .slide-content {
+            max-width: 95%;
+            width: 1280px;
+            height: 90vh;
+            padding: 1.25rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .slide-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .slide-body {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-right: 0.5rem;
+            max-height: calc(90vh - 5rem);
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary) transparent;
+        }
+        
+        .slide-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .slide-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .slide-body::-webkit-scrollbar-thumb {
+            background-color: var(--secondary);
+            border-radius: 6px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            font-weight: 700;
+            font-family: 'Noto Serif', 'Times New Roman', serif;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            font-weight: 600;
+            font-family: 'Noto Serif', 'Times New Roman', serif;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.7rem;
+            color: var(--secondary);
+            font-family: 'Noto Serif', 'Times New Roman', serif;
+        }
+        
+        p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        ul {
+            list-style-type: none;
+            margin-bottom: 1rem;
+        }
+        
+        li {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 8px;
+            height: 8px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.75rem;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.25rem;
+            cursor: pointer;
+            margin: 0 0.75rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: scale(1.2);
+            color: var(--secondary);
+        }
+        
+        .slide-counter {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.4rem 0.75rem;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--secondary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .decoration {
+            position: absolute;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .decoration-1 {
+            top: 20%;
+            left: 10%;
+            width: 200px;
+            height: 200px;
+            background: var(--primary);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: morphing 10s linear infinite alternate;
+        }
+        
+        .decoration-2 {
+            bottom: 10%;
+            right: 10%;
+            width: 150px;
+            height: 150px;
+            background: var(--secondary);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: morphing 8s linear infinite alternate;
+        }
+        
+        @keyframes morphing {
+            0% {
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            }
+            25% {
+                border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+            }
+            50% {
+                border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+            }
+            75% {
+                border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+            }
+            100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+        }
+        
+        /* Cards for features */
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 0.9rem;
+            width: 200px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        .card-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.6rem;
+            color: var(--secondary);
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+        
+        .card-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Table styles */
+        .table-container {
+            margin: 1rem 0;
+            overflow: auto;
+            max-height: 300px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.85rem;
+        }
+        
+        th, td {
+            padding: 0.6rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* 3D Emoji */
+        .emoji-3d {
+            font-size: 3rem;
+            display: inline-block;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.3), 
+                         2px 2px 0 rgba(255, 255, 255, 0.1), 
+                         -2px -2px 0 rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
+            margin: 0.75rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .emoji-3d::after {
+            content: attr(data-emoji);
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 3rem;
+            opacity: 0.3;
+            filter: blur(4px);
+            z-index: 1;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+                text-shadow: 0 0 5px rgba(0, 0, 0, 0.3), 
+                             2px 2px 0 rgba(255, 255, 255, 0.1), 
+                             -2px -2px 0 rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+                text-shadow: 0 10px 10px rgba(0, 0, 0, 0.2), 
+                             2px 2px 0 rgba(255, 255, 255, 0.1), 
+                             -2px -2px 0 rgba(0, 0, 0, 0.2);
+            }
+            100% {
+                transform: translateY(0px) rotate(0deg);
+                text-shadow: 0 0 5px rgba(0, 0, 0, 0.3), 
+                             2px 2px 0 rgba(255, 255, 255, 0.1), 
+                             -2px -2px 0 rgba(0, 0, 0, 0.2);
+            }
+        }
+        
+        /* 2-column layout */
+        .two-columns {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            height: 100%;
+        }
+        
+        .column {
+            flex: 1;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Image styles */
+        .img-container {
+            margin: 1rem 0;
+            text-align: center;
+            overflow: hidden;
+            border-radius: 10px;
+            position: relative;
+            height: auto;
+            max-height: 180px;
+        }
+        
+        .img-responsive {
+            max-width: 100%;
+            height: auto;
+            max-height: 180px;
+            border-radius: 10px;
+            transition: transform 0.5s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+        }
+        
+        .img-container:hover .img-responsive {
+            transform: scale(1.03);
+        }
+        
+        /* 3D Canvas */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        
+        /* Quote style */
+        .quote {
+            position: relative;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--info);
+            margin: 1.2rem 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+        
+        .quote::before {
+            content: '"';
+            position: absolute;
+            top: 0;
+            left: 10px;
+            font-size: 3rem;
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+        
+        /* Button styles */
+        .btn {
+            padding: 0.7rem 1.3rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Custom bullet points */
+        .custom-list {
+            counter-reset: item;
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .custom-list li {
+            counter-increment: item;
+            margin-bottom: 0.6rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+        
+        .custom-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            background: var(--secondary);
+            color: white;
+            width: 1.3rem;
+            height: 1.3rem;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 1.3rem;
+            font-size: 0.7rem;
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .slide-up {
+            animation: slideUp 1s ease forwards;
+        }
+        
+        .slide-down {
+            animation: slideDown 1s ease forwards;
+        }
+        
+        .slide-left {
+            animation: slideLeft 1s ease forwards;
+        }
+        
+        .slide-right {
+            animation: slideRight 1s ease forwards;
+        }
+        
+        .scale-in {
+            animation: scaleIn 1s ease forwards;
+        }
+        
+        .rotate-in {
+            animation: rotateIn 1s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideLeft {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideRight {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes rotateIn {
+            from { transform: rotate(-10deg) scale(0.8); opacity: 0; }
+            to { transform: rotate(0) scale(1); opacity: 1; }
+        }
+        
+        /* Animation delays */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+        .delay-7 { animation-delay: 0.7s; }
+        .delay-8 { animation-delay: 0.8s; }
+        .delay-9 { animation-delay: 0.9s; }
+        .delay-10 { animation-delay: 1s; }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div id="canvas-container"></div>
+    
+    <div id="presentation">
+        <!-- Decorative elements -->
+        <div class="decoration decoration-1"></div>
+        <div class="decoration decoration-2"></div>
+        
+        <!-- Slide 1: Title -->
+        <div class="slide active" id="slide-1">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h1>Mood Tracking Application</h1>
+                </div>
+                <div class="slide-body">
+                    <div style="text-align: center;">
+                        <div class="emoji-3d" data-emoji="😊">😊</div>
+                        <div class="emoji-3d" data-emoji="📊">📊</div>
+                        <div class="emoji-3d" data-emoji="📱">📱</div>
+                    </div>
+                    <p style="text-align: center; font-size: 1.5rem; margin-top: 2rem;" class="fade-in delay-5">
+                        A comprehensive solution for tracking, visualizing, and analyzing your mood patterns
+                    </p>
+                    <div class="btn-container" style="text-align: center; margin-top: 2rem;">
+                        <button class="btn fade-in delay-8" id="fullscreenBtn">
+                            <i class="fas fa-expand"></i> Press F11 or Click for Full Screen
+                        </button>
+                    </div>
+                    <p style="text-align: center; margin-top: 0.5rem; font-size: 0.9rem;" class="fade-in delay-9">
+                        Navigate slides with <i class="fas fa-arrow-left"></i> and <i class="fas fa-arrow-right"></i> arrow keys
+                    </p>
+                    <p style="text-align: center; color: var(--secondary); margin-top: 2rem;">
+                        <i class="fas fa-angle-double-down fa-2x" style="animation: float 2s infinite;"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 2: Introduction -->
+        <div class="slide" id="slide-2">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>Introduction</h2>
+                </div>
+                <div class="slide-body">
+                    <div class="two-columns">
+                        <div class="column">
+                            <h3 class="slide-up delay-1">Project Overview</h3>
+                            <p class="slide-up delay-2">Our Mood Tracker is a comprehensive React-based application designed to help users monitor, visualize, and gain insights from their mood patterns over time.</p>
+                            
+                            <h3 class="slide-up delay-3">Purpose</h3>
+                            <p class="slide-up delay-4">The application aims to provide users with tools to:</p>
+                            <ul class="slide-up delay-5">
+                                <li>Track daily mood fluctuations</li>
+                                <li>Identify patterns and triggers</li>
+                                <li>Improve emotional self-awareness</li>
+                                <li>Make data-driven lifestyle adjustments</li>
+                            </ul>
+                        </div>
+                        <div class="column">
+                            <div class="img-container slide-left delay-3">
+                                <img src="https://images.unsplash.com/photo-1560438718-eb61ede255eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Mood Tracking Concept" class="img-responsive">
+                            </div>
+                            
+                            <div class="cards-container">
+                                <div class="card scale-in delay-6">
+                                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                                    <div class="card-title">Data Visualization</div>
+                                    <div class="card-text">Advanced charts and graphs for clear pattern recognition</div>
+                                </div>
+                                <div class="card scale-in delay-7">
+                                    <div class="card-icon"><i class="fas fa-brain"></i></div>
+                                    <div class="card-title">Mental Wellness</div>
+                                    <div class="card-text">Promoting mindfulness and emotional intelligence</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3: Existing System -->
+        <div class="slide" id="slide-3">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>Existing System</h2>
+                </div>
+                <div class="slide-body">
+                    <div class="two-columns">
+                        <div class="column">
+                            <h3 class="slide-up delay-1">Current Solutions</h3>
+                            <ul class="slide-up delay-2">
+                                <li>Paper-based mood journals with limited analysis capabilities</li>
+                                <li>Basic mobile apps with minimal visualization features</li>
+                                <li>Clinical tools requiring professional guidance</li>
+                                <li>General wellness apps lacking mood-specific insights</li>
+                            </ul>
+                            
+                            <div class="img-container slide-up delay-4">
+                                <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Traditional Journaling" class="img-responsive">
+                            </div>
+                        </div>
+                        <div class="column">
+                            <h3 class="slide-up delay-1">Limitations</h3>
+                            <div class="table-container slide-left delay-3">
+                                <table>
+                                    <tr>
+                                        <th>Limitation</th>
+                                        <th>Impact</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Limited Visualization</td>
+                                        <td>Difficult to identify patterns</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Poor User Experience</td>
+                                        <td>Low consistency in tracking</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lack of Personalization</td>
+                                        <td>One-size-fits-all approach</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Minimal Insights</td>
+                                        <td>Raw data without analysis</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No Correlation Analysis</td>
+                                        <td>Missing connections with lifestyle factors</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 2rem;" class="scale-in delay-6">
+                                <div class="emoji-3d" data-emoji="📉" style="color: var(--error);">📉</div>
+                                <p style="color: var(--error); font-weight: 500;">Current solutions fall short of user needs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Problem Statement -->
+        <div class="slide" id="slide-4">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>Problem Statement</h2>
+                </div>
+                <div class="slide-body">
+                    <div class="cards-container" style="margin-top: 0.5rem; gap: 0.7rem;">
+                        <div class="card scale-in delay-1" style="width: 190px; padding: 0.8rem;">
+                            <div class="card-icon"><i class="fas fa-brain"></i></div>
+                            <div class="card-title">Mental Health Awareness</div>
+                            <div class="card-text">Growing need for accessible mental health tools that anyone can use daily</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-2" style="width: 190px; padding: 0.8rem;">
+                            <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                            <div class="card-title">Tracking Challenges</div>
+                            <div class="card-text">Difficulty maintaining consistent mood monitoring with existing tools</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-3" style="width: 190px; padding: 0.8rem;">
+                            <div class="card-icon"><i class="fas fa-chart-bar"></i></div>
+                            <div class="card-title">Data Accessibility</div>
+                            <div class="card-text">Need for intuitive visualizations to understand complex mood patterns</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cards-container" style="margin-top: 0.7rem; gap: 0.7rem;">
+                        <div class="card scale-in delay-4" style="width: 190px; padding: 0.8rem;">
+                            <div class="card-icon"><i class="fas fa-user-circle"></i></div>
+                            <div class="card-title">Personalization</div>
+                            <div class="card-text">Generic approaches don't address individual mood tracking needs</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-5" style="width: 190px; padding: 0.8rem;">
+                            <div class="card-icon"><i class="fas fa-gamepad"></i></div>
+                            <div class="card-title">User Engagement</div>
+                            <div class="card-text">Traditional methods lack engaging features to encourage regular use</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-6" style="width: 190px; padding: 0.8rem;">
+                            <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="card-title">Privacy Concerns</div>
+                            <div class="card-text">Sensitive emotional data requires secure, private handling</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <p class="quote slide-up delay-7" style="font-style: italic; font-size: 1rem; max-width: 800px; margin: 0 auto; color: var(--info);">
+                            "Despite the prevalence of mood-tracking features in mental health apps, most research has focused on novel system design or advancing methods for mood tracking in specific clinical disorders, with less known about people's experience with publicly available mood-tracking apps."
+                        </p>
+                        <p style="text-align: right; font-size: 0.8rem; margin-top: 0.3rem; color: var(--info);">
+                            — Research: "Understanding People's Use of and Perspectives on Mood-Tracking Apps"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 5: Proposed System -->
+        <div class="slide" id="slide-5">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>Proposed System</h2>
+                </div>
+                <div class="slide-body">
+                    <div class="two-columns">
+                        <div class="column">
+                            <h3 class="slide-up delay-1">System Overview</h3>
+                            <p class="slide-up delay-2">Our Mood Tracker is a modern web application built with React and TypeScript that provides a comprehensive solution for mood tracking and analysis.</p>
+                            
+                            <div class="img-container slide-up delay-3" style="max-height: 150px;">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Modern App Interface" class="img-responsive" style="max-height: 150px;">
+                            </div>
+                            
+                            <h3 class="slide-up delay-4">Technology Stack</h3>
+                            <ul class="slide-up delay-5">
+                                <li>React with TypeScript for robust frontend development</li>
+                                <li>Material UI for responsive and modern user interface</li>
+                                <li>Context API for efficient state management</li>
+                                <li>Recharts for interactive data visualization</li>
+                                <li>Local Storage for secure data persistence</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="column">
+                            <h3 class="slide-left delay-1">Key Features</h3>
+                            <ul class="slide-left delay-2">
+                                <li>Comprehensive mood tracking with multiple metrics</li>
+                                <li>Intuitive dashboard with mood overview and quick controls</li>
+                                <li>Advanced analytics with multiple visualization types</li>
+                                <li>Personalized insights based on historical patterns</li>
+                                <li>Correlation analysis between mood and factors</li>
+                                <li>Customizable themes and tracking preferences</li>
+                                <li>Data export functionality for healthcare providers</li>
+                            </ul>
+                            
+                            <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+                                <div style="text-align: center; margin: 0 1rem;" class="scale-in delay-3">
+                                    <div class="emoji-3d" data-emoji="📱" style="color: var(--success); font-size: 2.5rem; margin: 0.5rem;">📱</div>
+                                    <p style="font-size: 0.9rem;">Responsive Design</p>
+                                </div>
+                                <div style="text-align: center; margin: 0 1rem;" class="scale-in delay-4">
+                                    <div class="emoji-3d" data-emoji="🔒" style="color: var(--info); font-size: 2.5rem; margin: 0.5rem;">🔒</div>
+                                    <p style="font-size: 0.9rem;">Data Security</p>
+                                </div>
+                                <div style="text-align: center; margin: 0 1rem;" class="scale-in delay-5">
+                                    <div class="emoji-3d" data-emoji="⚡" style="color: var(--warning); font-size: 2.5rem; margin: 0.5rem;">⚡</div>
+                                    <p style="font-size: 0.9rem;">Performance Optimized</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 6: System Requirements - Functional -->
+        <div class="slide" id="slide-6">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>System Requirements - Functional</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1">Functional Requirements</h3>
+                    <div class="table-container slide-up delay-2" style="max-height: none;">
+                        <table>
+                            <tr>
+                                <th>Requirement</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>User Management</td>
+                                <td>Authentication, profiles, and preference settings</td>
+                            </tr>
+                            <tr>
+                                <td>Mood Logging</td>
+                                <td>Record moods with date, time, intensity, and notes</td>
+                            </tr>
+                            <tr>
+                                <td>Data Visualization</td>
+                                <td>Charts, calendars, and interactive visualizations</td>
+                            </tr>
+                            <tr>
+                                <td>Analytics</td>
+                                <td>Statistical analysis and pattern recognition</td>
+                            </tr>
+                            <tr>
+                                <td>History Management</td>
+                                <td>Edit, delete, and browse historical entries</td>
+                            </tr>
+                            <tr>
+                                <td>Data Export</td>
+                                <td>Export mood data in various formats (JSON, CSV)</td>
+                            </tr>
+                            <tr>
+                                <td>Customization</td>
+                                <td>User-defined themes and tracking preferences</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;" class="scale-in delay-3">
+                        <div class="emoji-3d" data-emoji="🔧" style="color: var(--primary);">🔧</div>
+                        <p>Well-defined functions for robust feature implementation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 7: System Requirements - Non-Functional -->
+        <div class="slide" id="slide-7">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>System Requirements - Non-Functional</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1">Non-Functional Requirements</h3>
+                    <div class="table-container slide-up delay-2" style="max-height: none;">
+                        <table>
+                            <tr>
+                                <th>Requirement</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>Usability</td>
+                                <td>Intuitive interface accessible to all users</td>
+                            </tr>
+                            <tr>
+                                <td>Performance</td>
+                                <td>Fast load times and responsive interactions</td>
+                            </tr>
+                            <tr>
+                                <td>Reliability</td>
+                                <td>Stable application with error handling</td>
+                            </tr>
+                            <tr>
+                                <td>Security</td>
+                                <td>Secure data storage and privacy protection</td>
+                            </tr>
+                            <tr>
+                                <td>Compatibility</td>
+                                <td>Support for multiple devices and browsers</td>
+                            </tr>
+                            <tr>
+                                <td>Offline Support</td>
+                                <td>Ability to function without internet connection</td>
+                            </tr>
+                            <tr>
+                                <td>Maintainability</td>
+                                <td>Well-structured code for future enhancements</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;" class="scale-in delay-3">
+                        <div class="emoji-3d" data-emoji="⚙️" style="color: var(--primary);">⚙️</div>
+                        <p>Comprehensive requirements ensure a robust application</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 8: Diagrams -->
+        <div class="slide" id="slide-8">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>Diagrams</h2>
+                </div>
+                <div class="slide-body">
+                    <div class="two-columns">
+                        <div class="column">
+                            <h3 class="slide-up delay-1">Application Architecture</h3>
+                            <div class="img-container slide-up delay-2" style="max-height: 250px;">
+                                <!-- SVG illustration of application architecture -->
+                                <svg width="100%" height="240" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Background -->
+                                    <rect x="0" y="0" width="800" height="400" fill="rgba(0,0,0,0.1)" rx="10" ry="10" />
+                                    
+                                    <!-- UI Layer -->
+                                    <rect x="50" y="50" width="700" height="80" fill="#3f51b5" rx="5" ry="5" opacity="0.7" />
+                                    <text x="400" y="95" font-family="Montserrat" font-size="20" fill="white" text-anchor="middle">UI Components (React + Material UI)</text>
+                                    
+                                    <!-- State Management Layer -->
+                                    <rect x="50" y="160" width="700" height="80" fill="#f50057" rx="5" ry="5" opacity="0.7" />
+                                    <text x="400" y="205" font-family="Montserrat" font-size="20" fill="white" text-anchor="middle">Context API (State Management)</text>
+                                    
+                                    <!-- Services Layer -->
+                                    <rect x="50" y="270" width="700" height="80" fill="#00bcd4" rx="5" ry="5" opacity="0.7" />
+                                    <text x="400" y="315" font-family="Montserrat" font-size="20" fill="white" text-anchor="middle">Services & Utilities (Data Processing)</text>
+                                    
+                                    <!-- Connecting lines -->
+                                    <line x1="400" y1="130" x2="400" y2="160" stroke="white" stroke-width="3" stroke-dasharray="5,5" />
+                                    <line x1="400" y1="240" x2="400" y2="270" stroke="white" stroke-width="3" stroke-dasharray="5,5" />
+                                    
+                                    <!-- Arrows -->
+                                    <polygon points="400,155 395,145 405,145" fill="white" />
+                                    <polygon points="400,265 395,255 405,255" fill="white" />
+                                </svg>
+                            </div>
+                            
+                            <h3 class="slide-up delay-3">Data Flow</h3>
+                            <ul class="slide-up delay-4">
+                                <li>User inputs mood data through UI components</li>
+                                <li>Data processed by Context API state management</li>
+                                <li>Storage services persist data in local storage</li>
+                                <li>Analytics services transform data for visualization</li>
+                                <li>UI components display processed data</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="column">
+                            <h3 class="slide-left delay-1">User Flow</h3>
+                            <div class="img-container slide-left delay-2" style="max-height: 250px;">
+                                <!-- SVG illustration of user flow -->
+                                <svg width="100%" height="240" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Background -->
+                                    <rect x="0" y="0" width="800" height="400" fill="rgba(0,0,0,0.1)" rx="10" ry="10" />
+                                    
+                                    <!-- Steps -->
+                                    <circle cx="400" cy="50" r="30" fill="#3f51b5" />
+                                    <text x="400" y="55" font-family="Montserrat" font-size="14" fill="white" text-anchor="middle">Login</text>
+                                    
+                                    <circle cx="400" cy="130" r="30" fill="#3f51b5" />
+                                    <text x="400" y="135" font-family="Montserrat" font-size="14" fill="white" text-anchor="middle">Dashboard</text>
+                                    
+                                    <circle cx="250" cy="210" r="30" fill="#f50057" />
+                                    <text x="250" y="215" font-family="Montserrat" font-size="14" fill="white" text-anchor="middle">Log Mood</text>
+                                    
+                                    <circle cx="550" cy="210" r="30" fill="#f50057" />
+                                    <text x="550" y="215" font-family="Montserrat" font-size="14" fill="white" text-anchor="middle">History</text>
+                                    
+                                    <circle cx="250" cy="290" r="30" fill="#f50057" />
+                                    <text x="250" y="295" font-family="Montserrat" font-size="14" fill="white" text-anchor="middle">Calendar</text>
+                                    
+                                    <circle cx="550" cy="290" r="30" fill="#f50057" />
+                                    <text x="550" y="295" font-family="Montserrat" font-size="14" fill="white" text-anchor="middle">Analytics</text>
+                                    
+                                    <circle cx="400" cy="350" r="30" fill="#00bcd4" />
+                                    <text x="400" y="355" font-family="Montserrat" font-size="14" fill="white" text-anchor="middle">Settings</text>
+                                    
+                                    <!-- Connecting lines -->
+                                    <line x1="400" y1="80" x2="400" y2="100" stroke="white" stroke-width="2" />
+                                    <line x1="400" y1="160" x2="250" y2="180" stroke="white" stroke-width="2" />
+                                    <line x1="400" y1="160" x2="550" y2="180" stroke="white" stroke-width="2" />
+                                    <line x1="250" y1="240" x2="250" y2="260" stroke="white" stroke-width="2" />
+                                    <line x1="550" y1="240" x2="550" y2="260" stroke="white" stroke-width="2" />
+                                    <line x1="250" y1="320" x2="400" y2="320" stroke="white" stroke-width="2" />
+                                    <line x1="550" y1="320" x2="400" y2="320" stroke="white" stroke-width="2" />
+                                    <line x1="400" y1="320" x2="400" y2="320" stroke="white" stroke-width="2" />
+                                    
+                                    <!-- Arrows -->
+                                    <polygon points="400,100 395,90 405,90" fill="white" />
+                                    <polygon points="250,180 245,170 255,170" fill="white" />
+                                    <polygon points="550,180 545,170 555,170" fill="white" />
+                                    <polygon points="250,260 245,250 255,250" fill="white" />
+                                    <polygon points="550,260 545,250 555,250" fill="white" />
+                                    <polygon points="400,350 395,340 405,340" fill="white" />
+                                </svg>
+                            </div>
+                            
+                            <h3 class="slide-left delay-3">Component Structure</h3>
+                            <ul class="slide-left delay-4">
+                                <li>Organized by feature with reusable components</li>
+                                <li>Context providers for global state management</li>
+                                <li>Service layer for business logic and data processing</li>
+                                <li>Type definitions for strong TypeScript typing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 9: Database Structure Overview -->
+        <div class="slide" id="slide-9">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>Database Structure Overview</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1">Main Data Models</h3>
+                    <p class="slide-up delay-2">Our application uses a structured data model to efficiently organize and store mood and user information. The database is implemented using the browser's localStorage API for client-side persistence.</p>
+                    
+                    <div class="cards-container" style="margin-top: 1.5rem;">
+                        <div class="card scale-in delay-3" style="width: 240px;">
+                            <div class="card-icon"><i class="fas fa-smile"></i></div>
+                            <div class="card-title">MoodEntry</div>
+                            <div class="card-text">Core data structure for mood records with associated metadata</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-4" style="width: 240px;">
+                            <div class="card-icon"><i class="fas fa-user"></i></div>
+                            <div class="card-title">User</div>
+                            <div class="card-text">User profile information and authentication details</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-5" style="width: 240px;">
+                            <div class="card-icon"><i class="fas fa-cog"></i></div>
+                            <div class="card-title">UserSettings</div>
+                            <div class="card-text">Configuration and personalization preferences</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <div class="emoji-3d slide-up delay-6" data-emoji="💾" style="color: var(--info);">💾</div>
+                        <p class="slide-up delay-7">Data is stored securely with the localStorage API</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 10: MoodEntry Introduction -->
+        <div class="slide" id="slide-10">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>MoodEntry Model - Introduction</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1" style="font-size: 1.8rem;">MoodEntry Overview</h3>
+                    <p class="slide-up delay-2" style="font-size: 1.3rem; line-height: 1.7;">The MoodEntry is our core data structure, designed to capture comprehensive mood data with all relevant contextual information.</p>
+                    
+                    <div style="display: flex; justify-content: center; margin: 2rem 0;" class="slide-up delay-3">
+                        <div class="emoji-3d" data-emoji="😊" style="font-size: 4rem; margin: 0 2rem; color: var(--success);">😊</div>
+                        <div class="emoji-3d" data-emoji="📝" style="font-size: 4rem; margin: 0 2rem; color: var(--info);">📝</div>
+                        <div class="emoji-3d" data-emoji="📊" style="font-size: 4rem; margin: 0 2rem; color: var(--warning);">📊</div>
+                    </div>
+                    
+                    <h3 class="slide-up delay-4" style="font-size: 1.6rem; margin-top: 1rem;">Key Characteristics</h3>
+                    <ul class="slide-up delay-5" style="font-size: 1.2rem; line-height: 1.7;">
+                        <li>Records individual mood instances with timestamps</li>
+                        <li>Captures contextual factors that affect mood</li>
+                        <li>Provides flexibility with time-of-day categorization</li>
+                        <li>Includes user notes for qualitative insights</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 11: MoodEntry Structure - Part 1 -->
+        <div class="slide" id="slide-11">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>MoodEntry Model - Data Structure (1/2)</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1" style="font-size: 1.7rem;">Core MoodEntry Fields</h3>
+                    
+                    <div class="table-container slide-up delay-2" style="margin-top: 2rem; max-height: none;">
+                        <table style="font-size: 1.25rem;">
+                            <tr>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Field</th>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Type</th>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Description</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">id</td>
+                                <td style="padding: 0.9rem;">string</td>
+                                <td style="padding: 0.9rem;">Unique identifier (UUID)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">date</td>
+                                <td style="padding: 0.9rem;">string</td>
+                                <td style="padding: 0.9rem;">ISO date string format</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">timeOfDay</td>
+                                <td style="padding: 0.9rem;">enum</td>
+                                <td style="padding: 0.9rem;">'morning' | 'afternoon' | 'evening' | 'night'</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <p class="slide-up delay-3" style="font-size: 1.2rem; font-style: italic; margin-top: 2rem; text-align: center;">
+                        The above fields provide the core temporal and identification structure for each mood entry
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 12: MoodEntry Structure - Part 2 -->
+        <div class="slide" id="slide-12">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>MoodEntry Model - Data Structure (2/2)</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1" style="font-size: 1.7rem;">Mood & Contextual Fields</h3>
+                    
+                    <div class="table-container slide-up delay-2" style="margin-top: 2rem; max-height: none;">
+                        <table style="font-size: 1.25rem;">
+                            <tr>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Field</th>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Type</th>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Description</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">mood</td>
+                                <td style="padding: 0.9rem;">enum</td>
+                                <td style="padding: 0.9rem;">'Very Bad' | 'Bad' | 'Okay' | 'Good' | 'Very Good'</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">notes</td>
+                                <td style="padding: 0.9rem;">string</td>
+                                <td style="padding: 0.9rem;">User's notes about their mood</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">weather</td>
+                                <td style="padding: 0.9rem;">object</td>
+                                <td style="padding: 0.9rem;">{temperature, condition, humidity}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <p class="slide-up delay-3" style="font-size: 1.2rem; font-style: italic; margin-top: 2rem; text-align: center;">
+                        These fields capture the actual mood data and important contextual information
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 13: MoodEntry Features -->
+        <div class="slide" id="slide-13">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>MoodEntry Model - Key Features</h2>
+                </div>
+                <div class="slide-body">
+                    <div class="two-columns">
+                        <div class="column">
+                            <h3 class="slide-left delay-1" style="font-size: 1.7rem;">Data Capture Features</h3>
+                            <ul class="slide-left delay-2" style="font-size: 1.3rem; line-height: 1.7;">
+                                <li>Comprehensive mood data capture</li>
+                                <li>Contextual information storage</li>
+                                <li>Flexible time-of-day categorization</li>
+                                <li>Multiple mood intensity levels</li>
+                            </ul>
+                            
+                            <div class="slide-left delay-3" style="margin-top: 2rem; text-align: center;">
+                                <div class="emoji-3d" data-emoji="📊" style="font-size: 3.5rem; color: var(--success);">📊</div>
+                                <p style="font-size: 1.2rem; margin-top: 0.5rem;">Structured Data Format</p>
+                            </div>
+                        </div>
+                        
+                        <div class="column">
+                            <h3 class="slide-right delay-1" style="font-size: 1.7rem;">Implementation Details</h3>
+                            <ul class="slide-right delay-2" style="font-size: 1.3rem; line-height: 1.7;">
+                                <li>TypeScript interfaces for type safety</li>
+                                <li>JSON serialization for storage</li>
+                                <li>CRUD operations via Context API</li>
+                                <li>Date-fns for date manipulation</li>
+                            </ul>
+                            
+                            <div class="slide-right delay-3" style="margin-top: 2rem; text-align: center;">
+                                <div class="emoji-3d" data-emoji="💾" style="font-size: 3.5rem; color: var(--info);">💾</div>
+                                <p style="font-size: 1.2rem; margin-top: 0.5rem;">Efficient Storage System</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 14: MoodEntry Usage Examples -->
+        <div class="slide" id="slide-14">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>MoodEntry Model - Usage Examples</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1" style="font-size: 1.7rem;">Example MoodEntry Instance</h3>
+                    
+                    <div class="slide-up delay-2" style="margin: 2rem auto; max-width: 90%; padding: 1.5rem; background: rgba(255,255,255,0.1); border-radius: 10px; font-size: 1.2rem; line-height: 1.7; font-family: monospace;">
+                        {<br>
+                        &nbsp;&nbsp;"id": "e8fd7d9c-3f3b-4c10-8c5e-7d2f78ec86a2",<br>
+                        &nbsp;&nbsp;"date": "2023-05-15T10:30:00.000Z",<br>
+                        &nbsp;&nbsp;"timeOfDay": "morning",<br>
+                        &nbsp;&nbsp;"mood": "Good",<br>
+                        &nbsp;&nbsp;"notes": "Felt energized after morning exercise",<br>
+                        &nbsp;&nbsp;"weather": {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"temperature": 72,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"condition": "sunny",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"humidity": 65<br>
+                        &nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <h3 class="slide-up delay-3" style="font-size: 1.7rem; margin-top: 1rem;">Common Operations</h3>
+                    <ul class="slide-up delay-4" style="font-size: 1.3rem; line-height: 1.7;">
+                        <li><strong>Create:</strong> Add new mood entries with context</li>
+                        <li><strong>Read:</strong> View historical entries by date, time, or mood</li>
+                        <li><strong>Update:</strong> Modify entries to add details</li>
+                        <li><strong>Delete:</strong> Remove unwanted entries</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 15: User Model Introduction -->
+        <div class="slide" id="slide-15">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>User Models - Introduction</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1" style="font-size: 1.8rem;">User Data Models Overview</h3>
+                    <p class="slide-up delay-2" style="font-size: 1.3rem; line-height: 1.7;">
+                        Our application uses multiple data models to represent user information and settings, allowing for personalized experience and data management.
+                    </p>
+                    
+                    <div style="display: flex; justify-content: center; margin: 2rem 0;" class="slide-up delay-3">
+                        <div class="emoji-3d" data-emoji="👤" style="font-size: 4rem; margin: 0 2rem; color: var(--primary);">👤</div>
+                        <div class="emoji-3d" data-emoji="⚙️" style="font-size: 4rem; margin: 0 2rem; color: var(--secondary);">⚙️</div>
+                    </div>
+                    
+                    <h3 class="slide-up delay-4" style="font-size: 1.6rem; margin-top: 1rem;">Primary User Models</h3>
+                    <ul class="slide-up delay-5" style="font-size: 1.3rem; line-height: 1.7;">
+                        <li><strong>User Model:</strong> Core user identity and profile information</li>
+                        <li><strong>UserSettings Model:</strong> User preferences and application configuration</li>
+                        <li><strong>Badge Model:</strong> Achievement system for engagement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 16: User Model Structure -->
+        <div class="slide" id="slide-16">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>User Model - Data Structure</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1" style="font-size: 1.7rem;">User Model Fields</h3>
+                    
+                    <div class="table-container slide-up delay-2" style="margin-top: 2rem; max-height: none;">
+                        <table style="font-size: 1.25rem;">
+                            <tr>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Field</th>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Type</th>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Description</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">id</td>
+                                <td style="padding: 0.9rem;">string</td>
+                                <td style="padding: 0.9rem;">Unique identifier</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">username</td>
+                                <td style="padding: 0.9rem;">string</td>
+                                <td style="padding: 0.9rem;">User's display name</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">email</td>
+                                <td style="padding: 0.9rem;">string</td>
+                                <td style="padding: 0.9rem;">User's email address</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">createdAt</td>
+                                <td style="padding: 0.9rem;">string</td>
+                                <td style="padding: 0.9rem;">Account creation date</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">settings</td>
+                                <td style="padding: 0.9rem;">UserSettings</td>
+                                <td style="padding: 0.9rem;">User preferences</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">badges</td>
+                                <td style="padding: 0.9rem;">Badge[]</td>
+                                <td style="padding: 0.9rem;">Achievement badges</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="slide-up delay-3" style="text-align: center; margin-top: 2rem;">
+                        <div class="emoji-3d" data-emoji="👤" style="font-size: 3.5rem; color: var(--primary);">👤</div>
+                        <p style="font-size: 1.2rem; margin-top: 0.5rem;">Centralized user identity management</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 17: UserSettings Model Structure -->
+        <div class="slide" id="slide-17">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>UserSettings Model - Data Structure</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1" style="font-size: 1.7rem;">UserSettings Model Fields</h3>
+                    
+                    <div class="table-container slide-up delay-2" style="margin-top: 2rem; max-height: none;">
+                        <table style="font-size: 1.25rem;">
+                            <tr>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Field</th>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Type</th>
+                                <th style="padding: 1rem; font-size: 1.3rem;">Description</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">theme</td>
+                                <td style="padding: 0.9rem;">ThemeType</td>
+                                <td style="padding: 0.9rem;">'dark' | 'light' | 'ocean' | etc.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">enableWeatherTracking</td>
+                                <td style="padding: 0.9rem;">boolean</td>
+                                <td style="padding: 0.9rem;">Toggle weather tracking</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">enablePredictions</td>
+                                <td style="padding: 0.9rem;">boolean</td>
+                                <td style="padding: 0.9rem;">Toggle mood predictions</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">location</td>
+                                <td style="padding: 0.9rem;">object</td>
+                                <td style="padding: 0.9rem;">{city, country, lat, lon}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.9rem;">notificationPreferences</td>
+                                <td style="padding: 0.9rem;">object</td>
+                                <td style="padding: 0.9rem;">{enabled, frequency, time}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="slide-up delay-3" style="text-align: center; margin-top: 2rem;">
+                        <div class="emoji-3d" data-emoji="⚙️" style="font-size: 3.5rem; color: var(--secondary);">⚙️</div>
+                        <p style="font-size: 1.2rem; margin-top: 0.5rem;">Personalized user experience settings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 18: User Data Relationships -->
+        <div class="slide" id="slide-18">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>User Data Relationships</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1" style="font-size: 1.7rem;">Model Relationships</h3>
+                    
+                    <div class="slide-up delay-2" style="margin: 2rem auto; max-width: 90%; text-align: center;">
+                        <!-- SVG representing user data relationships -->
+                        <svg width="100%" height="300" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background -->
+                            <rect x="0" y="0" width="800" height="400" fill="rgba(0,0,0,0.1)" rx="10" ry="10" />
+                            
+                            <!-- User Entity -->
+                            <rect x="300" y="50" width="200" height="80" fill="#3f51b5" rx="5" ry="5" opacity="0.8" />
+                            <text x="400" y="95" font-family="Noto Serif" font-size="24" fill="white" text-anchor="middle">User</text>
+                            
+                            <!-- Settings Entity -->
+                            <rect x="50" y="230" width="200" height="80" fill="#f50057" rx="5" ry="5" opacity="0.8" />
+                            <text x="150" y="275" font-family="Noto Serif" font-size="24" fill="white" text-anchor="middle">UserSettings</text>
+                            
+                            <!-- MoodEntry Entity -->
+                            <rect x="550" y="230" width="200" height="80" fill="#00bcd4" rx="5" ry="5" opacity="0.8" />
+                            <text x="650" y="275" font-family="Noto Serif" font-size="24" fill="white" text-anchor="middle">MoodEntries</text>
+                            
+                            <!-- User to Settings -->
+                            <line x1="300" y1="100" x2="200" y2="230" stroke="white" stroke-width="3" />
+                            <text x="210" y="175" font-family="Noto Serif" font-size="18" fill="white" text-anchor="middle">Has one</text>
+                            
+                            <!-- User to MoodEntries -->
+                            <line x1="500" y1="100" x2="600" y2="230" stroke="white" stroke-width="3" />
+                            <text x="580" y="175" font-family="Noto Serif" font-size="18" fill="white" text-anchor="middle">Has many</text>
+                        </svg>
+                    </div>
+                    
+                    <h3 class="slide-up delay-3" style="font-size: 1.6rem; margin-top: 1.5rem;">Data Access Patterns</h3>
+                    <ul class="slide-up delay-4" style="font-size: 1.3rem; line-height: 1.7;">
+                        <li>User entity serves as the central access point</li>
+                        <li>Settings referenced via User.settings property</li>
+                        <li>MoodEntries linked by User ID for efficient filtering</li>
+                        <li>Contextual data grouped by relationship type</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 19: User Interaction - Overview -->
+        <div class="slide" id="slide-19">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>User Interaction - Interfaces</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1">Key Interfaces</h3>
+                    <ul class="slide-up delay-2">
+                        <li><strong>Dashboard:</strong> Overview of mood patterns and quick access to features</li>
+                        <li><strong>Mood Logger:</strong> Interface for recording new mood entries with contextual factors</li>
+                        <li><strong>Calendar View:</strong> Visual calendar representation of daily moods</li>
+                        <li><strong>Analytics:</strong> Charts and graphs showing mood patterns and correlations</li>
+                        <li><strong>History:</strong> Chronological list of mood entries with filtering options</li>
+                        <li><strong>Settings:</strong> Personalization options for the application</li>
+                    </ul>
+                    
+                    <div class="img-container slide-up delay-3">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="User Interface" class="img-responsive">
+                    </div>
+                    
+                    <h3 class="slide-up delay-4" style="margin-top: 1.5rem;">Interaction Flow</h3>
+                    <p class="slide-up delay-5">The application is designed with a user-centered approach, ensuring that common tasks like logging a mood entry can be completed in minimal steps.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 20: User Experience Features -->
+        <div class="slide" id="slide-20">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>User Experience Features</h2>
+                </div>
+                <div class="slide-body">
+                    <div class="cards-container" style="margin-top: 1rem;">
+                        <div class="card scale-in delay-1">
+                            <div class="card-icon"><i class="fas fa-palette"></i></div>
+                            <div class="card-title">Visual Feedback</div>
+                            <div class="card-text">Color-coded mood indicators for intuitive understanding</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-2">
+                            <div class="card-icon"><i class="fas fa-mobile-alt"></i></div>
+                            <div class="card-title">Responsive Design</div>
+                            <div class="card-text">Optimized for all device sizes from mobile to desktop</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-3">
+                            <div class="card-icon"><i class="fas fa-magic"></i></div>
+                            <div class="card-title">Intuitive Navigation</div>
+                            <div class="card-text">Floating action buttons and clear navigation paths</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cards-container" style="margin-top: 1rem;">
+                        <div class="card scale-in delay-4">
+                            <div class="card-icon"><i class="fas fa-bolt"></i></div>
+                            <div class="card-title">Fast Interactions</div>
+                            <div class="card-text">Optimized performance for smooth user experience</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-5">
+                            <div class="card-icon"><i class="fas fa-universal-access"></i></div>
+                            <div class="card-title">Accessibility</div>
+                            <div class="card-text">Designed for all users including screen reader support</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-6">
+                            <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="card-title">Data Privacy</div>
+                            <div class="card-text">User control over data sharing and storage options</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 2rem;" class="slide-up delay-7">User Flow Steps</h3>
+                    <ol class="custom-list slide-up delay-8">
+                        <li>User accesses dashboard for an overview</li>
+                        <li>Quick log button allows easy mood entry</li>
+                        <li>Visual feedback confirms the entry</li>
+                        <li>Dashboard updates with new mood data</li>
+                        <li>Analytics provide immediate insights</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 21: Conclusion - Summary -->
+        <div class="slide" id="slide-21">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>Conclusion - Project Summary</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1">Project Summary</h3>
+                    <p class="slide-up delay-2">Our Mood Tracker application provides a comprehensive solution for tracking, visualizing, and analyzing mood patterns. Built with modern web technologies, it offers:</p>
+                    <ul class="slide-up delay-3">
+                        <li>Intuitive mood logging with contextual factors</li>
+                        <li>Powerful visualization tools to identify patterns</li>
+                        <li>Analytics to generate meaningful insights</li>
+                        <li>Personalization features for individual preferences</li>
+                        <li>Secure data storage with privacy protection</li>
+                    </ul>
+                    
+                    <h3 class="slide-up delay-4" style="margin-top: 1.5rem;">Benefits</h3>
+                    <ul class="slide-up delay-5">
+                        <li>Enhanced self-awareness through consistent mood tracking</li>
+                        <li>Visual insights into personal emotional patterns</li>
+                        <li>Correlation discovery between moods and external factors</li>
+                        <li>Personalized recommendations based on mood history</li>
+                        <li>Data-driven approach to mental wellness</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 22: Future Enhancements -->
+        <div class="slide" id="slide-22">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>Future Enhancements</h2>
+                </div>
+                <div class="slide-body">
+                    <h3 class="slide-up delay-1">Planned Improvements</h3>
+                    <div class="cards-container" style="margin-top: 1rem;">
+                        <div class="card scale-in delay-2">
+                            <div class="card-icon"><i class="fas fa-brain"></i></div>
+                            <div class="card-title">AI Integration</div>
+                            <div class="card-text">Machine learning for predictive insights and personalized recommendations</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-3">
+                            <div class="card-icon"><i class="fas fa-share-alt"></i></div>
+                            <div class="card-title">Social Features</div>
+                            <div class="card-text">Optional sharing capabilities with trusted contacts or health providers</div>
+                        </div>
+                    </div>
+                    
+                    <div class="cards-container" style="margin-top: 1rem;">
+                        <div class="card scale-in delay-4">
+                            <div class="card-icon"><i class="fas fa-watch"></i></div>
+                            <div class="card-title">Wearable Integration</div>
+                            <div class="card-text">Connection with wearable devices for physiological data correlation</div>
+                        </div>
+                        
+                        <div class="card scale-in delay-5">
+                            <div class="card-icon"><i class="fas fa-book"></i></div>
+                            <div class="card-title">Advanced Journaling</div>
+                            <div class="card-text">Enhanced journaling features with guided reflection prompts</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;" class="scale-in delay-6">
+                        <div class="emoji-3d" data-emoji="😊" style="color: var(--success);">😊</div>
+                        <p style="font-size: 1.2rem; font-weight: 600; color: var(--success);">Empowering users to understand and improve their emotional well-being</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 23: References -->
+        <div class="slide" id="slide-23">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <h2>References</h2>
+                </div>
+                <div class="slide-body">
+                    <div class="table-container slide-up delay-1" style="max-height: none;">
+                        <table>
+                            <tr>
+                                <th width="30%">Resource</th>
+                                <th>URL</th>
+                            </tr>
+                            <tr>
+                                <td>React Documentation</td>
+                                <td><a href="https://reactjs.org" target="_blank" style="color: var(--info);">https://reactjs.org</a></td>
+                            </tr>
+                            <tr>
+                                <td>Material-UI</td>
+                                <td><a href="https://mui.com" target="_blank" style="color: var(--info);">https://mui.com</a></td>
+                            </tr>
+                            <tr>
+                                <td>Recharts</td>
+                                <td><a href="https://recharts.org" target="_blank" style="color: var(--info);">https://recharts.org</a></td>
+                            </tr>
+                            <tr>
+                                <td>Date-fns</td>
+                                <td><a href="https://date-fns.org" target="_blank" style="color: var(--info);">https://date-fns.org</a></td>
+                            </tr>
+                            <tr>
+                                <td>TypeScript</td>
+                                <td><a href="https://www.typescriptlang.org" target="_blank" style="color: var(--info);">https://www.typescriptlang.org</a></td>
+                            </tr>
+                            <tr>
+                                <td>Research Paper</td>
+                                <td><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8387890/" target="_blank" style="color: var(--info);">Understanding People's Use of and Perspectives on Mood-Tracking Apps</a></td>
+                            </tr>
+                            <tr>
+                                <td>Mental Health Foundation</td>
+                                <td><a href="https://www.mentalhealth.org.uk" target="_blank" style="color: var(--info);">https://www.mentalhealth.org.uk</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <h3 style="margin-top: 1.5rem;" class="slide-up delay-2">Research Citations</h3>
+                    <ul class="slide-up delay-3" style="font-size: 0.85rem; line-height: 1.3;">
+                        <li>Caldeira, C., Chen, Y., Chan, L., Pham, V., & Zheng, K. (2017). Mobile apps for mood tracking: an analysis of features and user reviews. AMIA Annual Symposium Proceedings.</li>
+                        <li>Nahum, M., Van Vleet, T. M., Sohal, V. S., Mirzabekov, J. J., Rao, V. R., Wallace, D. L., ... & Chang, E. F. (2017). Immediate Mood Scaler: Tracking Symptoms of Depression and Anxiety Using a Novel Mobile Mood Scale. JMIR mHealth and uHealth, 5(4), e44.</li>
+                        <li>Widnall, E., Grant, C. E., Wang, T., Cross, L., Velupillai, S., Roberts, A., ... & Downs, J. (2020). User Perspectives of Mood-Monitoring Apps Available to Young People: Qualitative Content Analysis. JMIR mHealth and uHealth, 8(10), e18140.</li>
+                        <li>Bakker, D., & Rickard, N. (2018). Engagement in mobile app interventions: Role of program usage and psychological predicators. International Journal of Psychosocial Rehabilitation, 19(3), 215-230.</li>
+                        <li>Shingleton, R. M., & Palfai, T. P. (2016). Technology-delivered adaptations of motivational interviewing for health-related behaviors: A systematic review of the current research. Patient Education and Counseling, 99(1), 17-35.</li>
+                        <li>Torous, J., & Powell, A. C. (2015). Current research and trends in the use of smartphone applications for mood disorders. Internet Interventions, 2(2), 169-173.</li>
+                    </ul>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;" class="scale-in delay-4">
+                        <p style="font-size: 1.2rem; font-weight: 600;">Thank You</p>
+                        <p style="font-size: 0.9rem;">For more information about this project, contact us</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide Counter -->
+        <div class="slide-counter" id="slideCounter">1 / 23</div>
+        
+        <!-- Navigation Controls -->
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn"><i class="fas fa-arrow-left"></i></button>
+            <button class="nav-btn" id="nextBtn"><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS animation library
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        // Slide navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            let currentSlide = 1;
+            const progressBar = document.getElementById('progressBar');
+            const slideCounter = document.getElementById('slideCounter');
+            
+            // Fullscreen functionality
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            
+            fullscreenBtn.addEventListener('click', () => {
+                toggleFullScreen();
+            });
+            
+            // Handle F11 and F5 keys for fullscreen
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'F11' || e.key === 'F5') {
+                    e.preventDefault(); // Prevent default refresh action for F5
+                    toggleFullScreen();
+                }
+            });
+            
+            // Toggle fullscreen function
+            function toggleFullScreen() {
+                if (!document.fullscreenElement && 
+                    !document.mozFullScreenElement && 
+                    !document.webkitFullscreenElement && 
+                    !document.msFullscreenElement) {
+                    // Enter fullscreen
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    } else if (document.documentElement.msRequestFullscreen) {
+                        document.documentElement.msRequestFullscreen();
+                    } else if (document.documentElement.mozRequestFullScreen) {
+                        document.documentElement.mozRequestFullScreen();
+                    } else if (document.documentElement.webkitRequestFullscreen) {
+                        document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                    }
+                } else {
+                    // Exit fullscreen
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
+                }
+            }
+            
+            // Update progress bar
+            function updateProgress() {
+                const progress = (currentSlide - 1) / (totalSlides - 1) * 100;
+                progressBar.style.width = `${progress}%`;
+                slideCounter.textContent = `${currentSlide} / ${totalSlides}`;
+            }
+            
+            // Reset animations on current slide
+            function resetAnimations(slideElement) {
+                const animatedElements = slideElement.querySelectorAll('.fade-in, .slide-up, .slide-down, .slide-left, .slide-right, .scale-in, .rotate-in');
+                animatedElements.forEach(element => {
+                    element.style.opacity = '0';
+                    element.style.animation = 'none';
+                    element.offsetHeight; // Force reflow
+                    element.style.animation = '';
+                });
+            }
+            
+            // Trigger animations on current slide
+            function triggerAnimations(slideElement) {
+                const animatedElements = slideElement.querySelectorAll('.fade-in, .slide-up, .slide-down, .slide-left, .slide-right, .scale-in, .rotate-in');
+                animatedElements.forEach(element => {
+                    element.style.opacity = '1';
+                });
+            }
+            
+            // Show slide by index with professional transition effect
+            function showSlide(index) {
+                if (index < 1) index = 1;
+                if (index > totalSlides) index = totalSlides;
+                
+                if (index === currentSlide) return;
+                
+                // Get current and next slides
+                const currentSlideElement = document.getElementById(`slide-${currentSlide}`);
+                const nextSlideElement = document.getElementById(`slide-${index}`);
+                
+                // Prepare next slide for animation
+                resetAnimations(nextSlideElement);
+                
+                // Determine direction for transition effect
+                const direction = index > currentSlide ? 1 : -1;
+                
+                // Apply exit animation to current slide
+                gsap.to(currentSlideElement, {
+                    opacity: 0,
+                    y: -30 * direction,
+                    duration: 0.5,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        currentSlideElement.classList.remove('active');
+                        
+                        // Apply entrance animation to next slide
+                        nextSlideElement.style.opacity = 0;
+                        nextSlideElement.style.transform = `translateY(${30 * direction}px)`;
+                        nextSlideElement.classList.add('active');
+                        
+                        gsap.to(nextSlideElement, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.5,
+                            ease: "power2.out",
+                            onComplete: () => triggerAnimations(nextSlideElement)
+                        });
+                    }
+                });
+                
+                // Update current slide index
+                currentSlide = index;
+                
+                // Update progress bar
+                updateProgress();
+                
+                // Update theme colors based on slide
+                updateThemeColors();
+            }
+            
+            // Navigation buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.addEventListener('click', () => {
+                showSlide(currentSlide - 1);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                showSlide(currentSlide + 1);
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    showSlide(currentSlide - 1);
+                } else if (e.key === 'ArrowRight') {
+                    showSlide(currentSlide + 1);
+                }
+            });
+            
+            // Initialize progress bar
+            updateProgress();
+            
+            // Swipe navigation for touch devices
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                // Detect swipe direction
+                if (touchEndX < touchStartX - 50) {
+                    // Swipe left, go to next slide
+                    showSlide(currentSlide + 1);
+                } else if (touchEndX > touchStartX + 50) {
+                    // Swipe right, go to previous slide
+                    showSlide(currentSlide - 1);
+                }
+            }
+            
+            // Theme changer - alternate between themes as user progresses
+            function updateThemeColors() {
+                const root = document.documentElement;
+                
+                // Cycle through color themes based on slide number
+                switch (currentSlide % 5) {
+                    case 1:
+                        gsap.to(root, {
+                            duration: 1,
+                            ease: "power2.out",
+                            onStart: () => {
+                                root.style.setProperty('--primary', '#3f51b5');
+                                root.style.setProperty('--secondary', '#f50057');
+                            }
+                        });
+                        break;
+                    case 2:
+                        gsap.to(root, {
+                            duration: 1,
+                            ease: "power2.out",
+                            onStart: () => {
+                                root.style.setProperty('--primary', '#009688');
+                                root.style.setProperty('--secondary', '#ff5722');
+                            }
+                        });
+                        break;
+                    case 3:
+                        gsap.to(root, {
+                            duration: 1,
+                            ease: "power2.out",
+                            onStart: () => {
+                                root.style.setProperty('--primary', '#673ab7');
+                                root.style.setProperty('--secondary', '#ffc107');
+                            }
+                        });
+                        break;
+                    case 4:
+                        gsap.to(root, {
+                            duration: 1,
+                            ease: "power2.out",
+                            onStart: () => {
+                                root.style.setProperty('--primary', '#2196f3');
+                                root.style.setProperty('--secondary', '#e91e63');
+                            }
+                        });
+                        break;
+                    case 0:
+                        gsap.to(root, {
+                            duration: 1,
+                            ease: "power2.out",
+                            onStart: () => {
+                                root.style.setProperty('--primary', '#4caf50');
+                                root.style.setProperty('--secondary', '#9c27b0');
+                            }
+                        });
+                        break;
+                }
+            }
+            
+            // Initialize theme colors
+            updateThemeColors();
+            
+            // Interactive 3D Emoji effects
+            const emojis = document.querySelectorAll('.emoji-3d');
+            emojis.forEach(emoji => {
+                emoji.addEventListener('mouseover', () => {
+                    gsap.to(emoji, {
+                        scale: 1.2,
+                        rotation: 10,
+                        y: -10,
+                        duration: 0.3,
+                        ease: "back.out(1.7)"
+                    });
+                });
+                
+                emoji.addEventListener('mouseout', () => {
+                    gsap.to(emoji, {
+                        scale: 1,
+                        rotation: 0,
+                        y: 0,
+                        duration: 0.3,
+                        ease: "back.out(1.7)"
+                    });
+                });
+            });
+            
+            // Trigger animations for initial slide
+            triggerAnimations(document.getElementById('slide-1'));
+            
+            // Initialize 3D background with Three.js
+            function init3DBackground() {
+                const container = document.getElementById('canvas-container');
+                
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                
+                const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearColor(0x000000, 0);
+                container.appendChild(renderer.domElement);
+                
+                // Create particles
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particlesCount = 1500;
+                
+                const posArray = new Float32Array(particlesCount * 3);
+                
+                for (let i = 0; i < particlesCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 5;
+                }
+                
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                
+                // Material
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.005,
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                
+                // Mesh
+                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particlesMesh);
+                
+                camera.position.z = 2;
+                
+                // Mouse effect
+                let mouseX = 0;
+                let mouseY = 0;
+                
+                function onDocumentMouseMove(event) {
+                    mouseX = (event.clientX - window.innerWidth / 2) / 5000;
+                    mouseY = (event.clientY - window.innerHeight / 2) / 5000;
+                }
+                
+                document.addEventListener('mousemove', onDocumentMouseMove);
+                
+                // Animation loop
+                function animate() {
+                    requestAnimationFrame(animate);
+                    
+                    particlesMesh.rotation.x += 0.0005;
+                    particlesMesh.rotation.y += 0.0005;
+                    
+                    particlesMesh.rotation.x += mouseY * 0.3;
+                    particlesMesh.rotation.y += mouseX * 0.3;
+                    
+                    renderer.render(scene, camera);
+                }
+                
+                animate();
+                
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+            }
+            
+            // Initialize 3D background
+            if (typeof THREE !== 'undefined') {
+                init3DBackground();
+            }
+        });
+    </script>
+</body>
+</html> 

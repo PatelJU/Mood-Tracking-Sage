@@ -1,0 +1,14 @@
+# Table 2.1: Popular Methods/Techniques for Data Storage and State Management in React Applications
+
+| Method/Technique | Description | Advantages | Disadvantages | Usage in Pro Mood Tracker |
+|------------------|-------------|------------|---------------|---------------------------|
+| Local Storage | Browser-based key-value storage that persists across sessions | - Persists after browser restarts<br>- Simple API<br>- Widely supported | - Limited storage capacity (5-10MB)<br>- String-only storage<br>- No indexing capabilities | Primary storage for user mood data and application settings |
+| Session Storage | Similar to localStorage but cleared when session ends | - Same API as localStorage<br>- Improved security for sensitive data | - Lost on tab/browser close<br>- Same limitations as localStorage | Used for temporary session data and form state persistence |
+| IndexedDB | Browser-based object store with advanced querying | - Large storage capacity<br>- Complex data structure support<br>- Indexing and searching | - Complex API<br>- Requires more boilerplate code | Considered for future implementation for larger datasets |
+| React Context API | Built-in state management for React components | - Native to React<br>- No external dependencies<br>- Hierarchical state | - Can cause re-renders<br>- Not optimized for frequent updates | Used for theme, auth, user, and mood state management |
+| Redux | Centralized state management library | - Predictable state updates<br>- Time-travel debugging<br>- Middleware support | - Verbose boilerplate<br>- Learning curve<br>- Additional dependency | Not used in current implementation |
+| MobX | Reactive state management library | - Less boilerplate<br>- Automatic tracking<br>- Simplified API | - Less explicit data flow<br>- Can be harder to debug | Not used in current implementation |
+| React Query | Data fetching and caching library | - Automatic caching<br>- Background updates<br>- Loading/error states | - External dependency<br>- Primarily for server data | Not used in current implementation |
+| Zustand | Simple state management | - Minimal API<br>- No providers needed<br>- Good performance | - Relatively new<br>- Less community support | Not used in current implementation |
+| Recoil | Facebook's experimental state management | - Atom-based approach<br>- Fine-grained updates<br>- Concurrent mode compatible | - Experimental status<br>- Evolving API | Not used in current implementation |
+| Custom Hooks | Encapsulated state logic in reusable hooks | - Highly customizable<br>- No dependencies<br>- Focused functionality | - Can lead to duplication<br>- Requires careful design | Used for specific functionality like window size detection and form handling | 

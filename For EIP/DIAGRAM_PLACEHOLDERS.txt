@@ -1,0 +1,49 @@
+DIAGRAM PLACEHOLDERS FOR YOUR REPORT
+
+Replace each diagram in your report with these professional placeholders. After importing to Word, you can create proper diagrams.
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 1.1: Use Case/Procedure Diagram - Shows the primary interactions between end users and system administrators with the Pro Mood Tracker system]
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 1.2: Activity/Process Diagram - Illustrates the workflow from start session through authentication, dashboard view, logging moods, viewing analytics, and ending session]
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 2.1: Use Case/Procedure Diagram - Shows the system requirements breakdown between development and deployment environments including hardware, software, and dependencies]
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 2.2: Activity/Process Diagram - Depicts the development workflow from environment setup through deployment, user access, feedback, and iteration]
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 2.3: Use Case/Procedure Diagram - Shows the system architecture with presentation, application, and data layers]
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 2.4: Activity/Process Diagram - Illustrates the security workflow from user access, authentication, data access, to UI rendering]
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 3.1: Use Case/Procedure Diagram - Shows the Pro Mood Tracker system's main components: mood logging, visualization, and analytics with their respective sub-components]
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 4.1: Activity/Process Diagram - Illustrates the mood logging and analysis process from user input through validation, storage, processing, analytics, visualization, to user feedback]
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 4.2: Use Case Diagram - Shows the primary interactions between users (Regular User, Data Analyst, Administrator) and the system (Log Mood, View Stats, Manage Account)]
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 4.3: ER Diagram - Illustrates the data model with entities User, MoodEntry, Weather, Activity, Badge, and Settings, showing their relationships and cardinality]
+
+------------------------------------------------------------------------------------------
+
+[FIGURE 4.4: Data Flow Diagram - Shows how data moves through the Pro Mood Tracker system from user input through processing to user feedback]
+
+------------------------------------------------------------------------------------------ 
