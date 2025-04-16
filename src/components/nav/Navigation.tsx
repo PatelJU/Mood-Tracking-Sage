@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   AppBar, 
@@ -31,9 +31,11 @@ import { useTheme as useThemeContext } from '../../context/ThemeContext';
 interface NavigationProps {
   drawerOpen: boolean;
   setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onSidebarExpand?: (expanded: boolean) => void;
+  forceExpanded?: boolean;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ drawerOpen, setDrawerOpen }) => {
+const Navigation: React.FC<NavigationProps> = ({ drawerOpen, setDrawerOpen, onSidebarExpand, forceExpanded }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
@@ -42,8 +44,21 @@ const Navigation: React.FC<NavigationProps> = ({ drawerOpen, setDrawerOpen }) =>
   
   const [expanded, setExpanded] = useState(false);
   
+  useEffect(() => {
+    if (forceExpanded !== undefined) {
+      setExpanded(forceExpanded);
+      if (onSidebarExpand) {
+        onSidebarExpand(forceExpanded);
+      }
+    }
+  }, [forceExpanded, onSidebarExpand]);
+  
   const toggleExpanded = () => {
-    setExpanded(!expanded);
+    const newExpanded = !expanded;
+    setExpanded(newExpanded);
+    if (onSidebarExpand) {
+      onSidebarExpand(newExpanded);
+    }
   };
   
   const handleNavigation = (path: string) => {
@@ -126,48 +141,48 @@ const Navigation: React.FC<NavigationProps> = ({ drawerOpen, setDrawerOpen }) =>
             </Typography>
           </Box>
           
-          <Box sx={{ px: 2, pb: 2 }}>
+          <Box sx={{ px: 2, pb: 4, overflow: 'auto' }}>
             {navItems.map((item) => (
               <Paper
                 key={item.text}
-                elevation={location.pathname === item.path ? 2 : 0}
+                elevation={0}
+                onClick={() => handleNavigation(item.path)} 
                 sx={{
-                  mb: 1,
+                  mb: 1.5,
+                  borderRadius: 'var(--radius-lg)',
                   overflow: 'hidden',
-                  borderRadius: 'var(--radius-md)',
-                  bgcolor: location.pathname === item.path 
-                    ? 'var(--color-primary-100)' 
-                    : 'transparent',
-                  transition: 'all var(--motion-medium)',
+                  background: location.pathname === item.path ? 'rgba(99, 102, 241, 0.12)' : 'rgba(255, 255, 255, 0.8)',
+                  boxShadow: location.pathname === item.path ? 'var(--shadow-sm)' : 'none',
+                  position: 'relative',
+                  transition: 'all 0.25s ease',
+                  border: '1px solid',
+                  borderColor: location.pathname === item.path ? 'rgba(99, 102, 241, 0.3)' : 'rgba(0, 0, 0, 0.05)',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: 'var(--shadow-md)',
+                    background: location.pathname === item.path ? 'rgba(99, 102, 241, 0.15)' : 'rgba(255, 255, 255, 0.9)',
+                    borderColor: 'rgba(99, 102, 241, 0.4)',
+                  },
+                  ...(location.pathname === item.path && {
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      height: '100%',
+                      width: '3px',
+                      background: 'linear-gradient(to bottom, var(--color-primary), var(--color-secondary))',
+                      borderRadius: '3px'
+                    }
+                  })
                 }}
               >
-                <Box
-                  onClick={() => handleNavigation(item.path)}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    py: 1.5,
-                    px: 2,
-                    cursor: 'pointer',
-                    position: 'relative',
-                    '&:hover': {
-                      bgcolor: 'rgba(99, 102, 241, 0.08)',
-                      transform: 'translateX(4px)'
-                    },
-                    ...(location.pathname === item.path && {
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        height: '100%',
-                        width: '3px',
-                        background: 'linear-gradient(to bottom, var(--color-primary), var(--color-secondary))',
-                        borderRadius: '0 var(--radius-sm) var(--radius-sm) 0'
-                      }
-                    })
-                  }}
-                >
+                <Box sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  p: 2,
+                }}>
                   <Box 
                     className="icon-container"
                     sx={{
@@ -214,7 +229,7 @@ const Navigation: React.FC<NavigationProps> = ({ drawerOpen, setDrawerOpen }) =>
           className={`sidebar ${expanded ? 'expanded' : ''}`}
           sx={{
             width: expanded ? 240 : 70,
-            transition: 'width var(--motion-medium)',
+            transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             position: 'fixed',
             left: 0,
             top: 0,
@@ -226,9 +241,12 @@ const Navigation: React.FC<NavigationProps> = ({ drawerOpen, setDrawerOpen }) =>
             border: 'none',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center'
+            alignItems: 'center',
+            overflow: 'hidden'
           }}
         >
+          {/* No more toggle button here as it's now in Layout */}
+          
           <Box className="nav-items" sx={{ mt: 1, width: '100%', px: 1 }}>
             {navItems.map((item) => (
               <Tooltip
@@ -238,117 +256,80 @@ const Navigation: React.FC<NavigationProps> = ({ drawerOpen, setDrawerOpen }) =>
                 TransitionComponent={Zoom}
                 arrow
               >
-                <Paper
-                  elevation={location.pathname === item.path ? 2 : 0}
+                <Box
+                  className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
+                  onClick={() => handleNavigation(item.path)}
                   sx={{
-                    my: 0.8,
-                    borderRadius: 'var(--radius-lg)',
-                    overflow: 'hidden',
-                    bgcolor: location.pathname === item.path ? 'var(--color-primary-100)' : 'transparent',
-                    border: location.pathname === item.path ? '1px solid rgba(99, 102, 241, 0.2)' : 'none',
-                    boxShadow: location.pathname === item.path ? 'var(--shadow-sm)' : 'none',
+                    height: '46px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '100%',
+                    px: expanded ? 2 : 1,
+                    position: 'relative',
+                    borderRadius: 'var(--radius-md)',
+                    mb: 1,
                     cursor: 'pointer',
-                    transition: 'all var(--motion-medium)',
+                    transition: 'all 0.2s ease',
                     '&:hover': {
-                      transform: 'translateX(5px)',
-                      boxShadow: 'var(--shadow-sm)'
-                    }
+                      backgroundColor: 'rgba(99, 102, 241, 0.08)',
+                      transform: expanded ? 'translateX(4px)' : 'scale(1.08)',
+                    },
+                    ...(location.pathname === item.path && {
+                      backgroundColor: 'var(--color-primary-100)',
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        height: '100%',
+                        width: '3px',
+                        background: 'linear-gradient(to bottom, var(--color-primary), var(--color-secondary))',
+                        borderRadius: '0 var(--radius-sm) var(--radius-sm) 0'
+                      }
+                    })
                   }}
                 >
-                  <Box
-                    className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
-                    onClick={() => handleNavigation(item.path)}
+                  <Box 
+                    className="icon-container"
                     sx={{
-                      height: '46px',
                       display: 'flex',
                       alignItems: 'center',
-                      px: expanded ? 2 : 1,
-                      position: 'relative',
-                      ...(location.pathname === item.path && {
-                        '&::before': {
-                          content: '""',
-                          position: 'absolute',
-                          left: 0,
-                          top: 0,
-                          height: '100%',
-                          width: '3px',
-                          background: 'linear-gradient(to bottom, var(--color-primary), var(--color-secondary))',
-                          borderRadius: '0 var(--radius-sm) var(--radius-sm) 0'
-                        }
-                      })
+                      justifyContent: 'center',
+                      minWidth: 36,
+                      height: 36,
+                      borderRadius: '50%',
+                      color: location.pathname === item.path ? 'var(--color-primary)' : 'var(--color-text-dark-secondary)',
+                      bgcolor: location.pathname === item.path ? 'var(--color-primary-100)' : 'rgba(255, 255, 255, 0.7)',
+                      boxShadow: location.pathname === item.path ? 'var(--shadow-sm)' : 'none',
                     }}
                   >
-                    <Box 
-                      className="icon-container"
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        minWidth: 36,
-                        height: 36,
-                        borderRadius: '50%',
-                        color: location.pathname === item.path ? 'var(--color-primary)' : 'var(--color-text-dark-secondary)',
-                        bgcolor: location.pathname === item.path ? 'var(--color-primary-100)' : 'rgba(255, 255, 255, 0.7)',
-                        boxShadow: location.pathname === item.path ? 'var(--shadow-sm)' : 'none',
+                    {item.icon}
+                  </Box>
+                  
+                  {expanded && (
+                    <Typography 
+                      sx={{ 
+                        ml: 2,
+                        fontWeight: location.pathname === item.path ? 600 : 500,
+                        fontSize: '0.95rem',
+                        color: location.pathname === item.path ? 'var(--color-primary)' : 'var(--color-text-dark)',
+                        whiteSpace: 'nowrap',
+                        opacity: expanded ? 1 : 0,
+                        transition: 'opacity 0.3s ease',
+                        ...(location.pathname === item.path && {
+                          background: 'linear-gradient(90deg, var(--color-primary), var(--color-secondary))',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text',
+                        })
                       }}
                     >
-                      {item.icon}
-                    </Box>
-                    
-                    {expanded && (
-                      <Typography
-                        className="nav-item-text"
-                        sx={{
-                          opacity: expanded ? 1 : 0,
-                          ml: 1.5,
-                          fontWeight: location.pathname === item.path ? 600 : 500,
-                          fontSize: '0.95rem',
-                          color: location.pathname === item.path ? 'var(--color-primary)' : 'var(--color-text-dark)',
-                          transition: 'opacity var(--motion-medium)',
-                          ...(location.pathname === item.path && {
-                            background: 'linear-gradient(90deg, var(--color-primary), var(--color-secondary))',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                            textShadow: 'none'
-                          })
-                        }}
-                      >
-                        {item.text}
-                      </Typography>
-                    )}
-                  </Box>
-                </Paper>
+                      {item.text}
+                    </Typography>
+                  )}
+                </Box>
               </Tooltip>
             ))}
-          </Box>
-          
-          <Box className="nav-footer" sx={{ 
-            mt: 'auto', 
-            mb: 3, 
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            padding: 2
-          }}>
-            <IconButton
-              onClick={toggleExpanded}
-              size="small"
-              sx={{ 
-                bgcolor: 'rgba(99, 102, 241, 0.1)',
-                color: 'var(--color-primary)',
-                width: 36,
-                height: 36,
-                boxShadow: 'var(--shadow-sm)',
-                '&:hover': {
-                  bgcolor: 'rgba(99, 102, 241, 0.2)',
-                  transform: 'scale(1.05)'
-                }
-              }}
-            >
-              {expanded ? <CollapseIcon /> : <ExpandIcon />}
-            </IconButton>
           </Box>
         </Box>
       )}

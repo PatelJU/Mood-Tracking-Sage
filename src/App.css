@@ -201,6 +201,12 @@ p, li, span {
   width: 100%;
   padding-top: 80px !important; /* Match the AppBar height + buffer */
   padding-left: 76px !important; /* Match the sidebar width + buffer */
+  transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Adjust content when sidebar is expanded */
+.content-wrapper.sidebar-expanded {
+  padding-left: 246px !important; /* Match expanded sidebar width + buffer */
 }
 
 .main-content {
@@ -232,6 +238,29 @@ p, li, span {
 
 .sidebar.expanded {
   width: 240px;
+}
+
+/* Enhanced sidebar for collapsed state */
+.sidebar:not(.expanded) .nav-item {
+  justify-content: center;
+  padding: 0;
+}
+
+.sidebar:not(.expanded) .icon-container {
+  margin-right: 0;
+  width: 40px !important;
+  height: 40px !important;
+  transition: all 0.3s ease;
+}
+
+.sidebar:not(.expanded) .nav-item:hover .icon-container {
+  transform: scale(1.15);
+  background-color: rgba(99, 102, 241, 0.15);
+}
+
+.sidebar:not(.expanded) .nav-item.active .icon-container {
+  background-color: var(--color-primary-100);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
 }
 
 .sidebar .nav-header {
